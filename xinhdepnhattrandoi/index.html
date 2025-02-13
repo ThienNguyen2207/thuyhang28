@@ -3,41 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery Around Video</title>
+    <title>Gallery with Videos in Center</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f0f0; }
-        .container { position: relative; width: 600px; height: 600px; }
-        .video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; height: 300px; z-index: 10; }
-        .image { position: absolute; width: 100px; height: 100px; border-radius: 10px; z-index: 5; }
+        .container { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 900px; }
+        .image-column { display: flex; flex-direction: column; gap: 10px; }
+        .image { width: 100px; height: 100px; border-radius: 10px; }
+        .video-column { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+        .video { width: 300px; height: 200px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <video class="video" controls>
-            <source src="video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const container = document.querySelector(".container");
-                const imageNames = ["img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg", "img5.jpg", "img6.jpg", "img7.jpg", "img8.jpg"];
-                const positions = [
-                    [130, 30], [370, 30],
-                    [80, 130], [420, 130],
-                    [80, 370], [420, 370],
-                    [130, 470], [370, 470]
-                ];
-                imageNames.forEach((name, index) => {
-                    let img = document.createElement("img");
-                    img.src = name;
-                    img.className = "image";
-                    img.style.left = `${positions[index][0]}px`;
-                    img.style.top = `${positions[index][1]}px`;
-                    container.appendChild(img);
-                });
-            });
-        </script>
+        <div class="image-column" id="left-images"></div>
+        <div class="video-column">
+            <video class="video" controls>
+                <source src="video1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <video class="video" controls>
+                <source src="video2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <video class="video" controls>
+                <source src="video3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="image-column" id="right-images"></div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const leftColumn = document.getElementById("left-images");
+            const rightColumn = document.getElementById("right-images");
+            const imageNames = ["img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg", "img5.jpg", "img6.jpg", "img7.jpg", "img8.jpg"];
+            imageNames.forEach((name, index) => {
+                let img = document.createElement("img");
+                img.src = name;
+                img.className = "image";
+                if (index % 2 === 0) {
+                    leftColumn.appendChild(img);
+                } else {
+                    rightColumn.appendChild(img);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
