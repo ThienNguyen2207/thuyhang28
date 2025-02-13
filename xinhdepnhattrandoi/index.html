@@ -3,44 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrolling Images</title>
+    <title>Heart Shaped Gallery</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { display: flex; height: 100vh; }
-        .container { width: 50%; overflow: hidden; position: relative; }
-        .left, .right { position: absolute; width: 100%; }
-        .left img, .right img { width: 100%; display: block; }
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f0f0; }
+        .container { position: relative; width: 600px; height: 600px; }
+        .heart { position: absolute; width: 100px; height: 100px; border-radius: 50%; }
+        .video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 200px; }
     </style>
 </head>
 <body>
-    <div class="container" style="background: lightblue;">
-        <div class="left" id="left-scroll">
-            <img src="https://via.placeholder.com/300" alt="Image 1">
-            <img src="https://via.placeholder.com/300" alt="Image 2">
-            <img src="https://via.placeholder.com/300" alt="Image 3">
-        </div>
+    <div class="container">
+        <video class="video" controls>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const container = document.querySelector(".container");
+                const imageNames = ["img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg", "img5.jpg", "img6.jpg", "img7.jpg", "img8.jpg", "img9.jpg", "img10.jpg"];
+                const positions = [
+                    [150, 50], [250, 30], [350, 50],
+                    [100, 150], [400, 150],
+                    [50, 250], [450, 250],
+                    [100, 350], [400, 350],
+                    [250, 400]
+                ];
+                imageNames.forEach((name, index) => {
+                    let img = document.createElement("img");
+                    img.src = name;
+                    img.className = "heart";
+                    img.style.left = `${positions[index][0]}px`;
+                    img.style.top = `${positions[index][1]}px`;
+                    container.appendChild(img);
+                });
+            });
+        </script>
     </div>
-    <div class="container" style="background: lightcoral;">
-        <div class="right" id="right-scroll">
-            <img src="https://via.placeholder.com/300" alt="Image 1">
-            <img src="https://via.placeholder.com/300" alt="Image 2">
-            <img src="https://via.placeholder.com/300" alt="Image 3">
-        </div>
-    </div>
-    <script>
-        function scrollImages(element, speed) {
-            let pos = 0;
-            function move() {
-                pos += speed;
-                element.style.transform = `translateY(${pos}px)`;
-                if (pos >= element.clientHeight) pos = -element.clientHeight;
-                if (pos <= -element.clientHeight) pos = element.clientHeight;
-                requestAnimationFrame(move);
-            }
-            move();
-        }
-        scrollImages(document.getElementById('left-scroll'), 1);
-        scrollImages(document.getElementById('right-scroll'), -1);
-    </script>
 </body>
 </html>
